@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      'https://moonlit-salmiakki-eae0cc.netlify.app',
+      'https://devbhoomi-fresh.netlify.app',
       'http://localhost:5173',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
