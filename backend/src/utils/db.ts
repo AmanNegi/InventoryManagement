@@ -13,7 +13,7 @@ export async function connectToDB() {
 
     return undefined;
   } catch (err) {
-    logger.error('Error connecting to Database...');
+    logger.error('Error connecting to Database...', err);
     return err;
   }
 }

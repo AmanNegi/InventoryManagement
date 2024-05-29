@@ -20,7 +20,8 @@ router.get('/getAll', async (req, res) => {
  * @param {Object} req.body - The request body.
  * @param {string} req.body.title - The title of the item.
  * @param {string} req.body.description - The description of the item.
- * @param {number} req.body.price - The price of the item.
+ * @param {number} req.body.costPrice - The cost price of the item.
+ * @param {number} req.body.sellingPrice - The selling price of the item.
  * @param {number} req.body.quantity - The quantity of the item.
  * @param {Array<string>} req.body.image - The array with image URL of the item.
  */
@@ -68,5 +69,21 @@ router.put('/updateItem/:id', async (req, res) => {
   if (!item) {
     return res.status(404).send('No Product Found');
   }
+  const { error } = validateInventoryItem(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  return res.send(item);
+});
+
+router.delete('/deleteItem/:itemId', async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.itemId)) {
+    return res.status(404).send('Invalid Item ID');
+  }
+
+  const item = await InventoryItem.findByIdAndDelete(req.params.itemId);
+  if (!item) {
+    return res.status(404).send('No Product Found');
+  }
+
   return res.send(item);
 });

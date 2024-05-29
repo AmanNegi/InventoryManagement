@@ -12,7 +12,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*", "src/swagger-output.json"],
+  "include": ["src/**/*", "src/swagger-output.json" ],
   "exclude": ["src/**/*.spec.ts"],
   "experimentalDecorators": true,
   "emitDecoratorMetadata": true

@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import Joi from 'joi';
 
 const inventoryItemSchema = new mongoose.Schema({
-  name: {
+  title: {
     type: String,
     required: true,
   },
@@ -14,11 +14,17 @@ const inventoryItemSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
-  price: {
+  costPrice: {
     type: Number,
     required: true,
     min: 0,
   },
+  sellingPrice: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+
   quantity: {
     type: Number,
     default: 1,
@@ -38,11 +44,12 @@ export const InventoryItem = mongoose.model(
 
 export function validateInventoryItem(item: any) {
   const schema = Joi.object().keys({
-    name: Joi.string().required(),
+    title: Joi.string().required(),
     description: Joi.string().required(),
     images: Joi.array().items(Joi.string()).required(),
     quantity: Joi.number().min(1).required(),
-    price: Joi.number().required(),
+    costPrice: Joi.number().required(),
+    sellingPrice: Joi.number().required(),
   });
   return schema.validate(item);
 }
