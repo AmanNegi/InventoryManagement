@@ -61,6 +61,9 @@ router.put('/updateItem/:id', async (req, res) => {
     return res.status(404).send('Invalid Item ID');
   }
 
+  const { error } = validateInventoryItem(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
   const item = await InventoryItem.findOneAndUpdate(
     { _id: req.params.id },
     req.body,
@@ -69,8 +72,6 @@ router.put('/updateItem/:id', async (req, res) => {
   if (!item) {
     return res.status(404).send('No Product Found');
   }
-  const { error } = validateInventoryItem(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
 
   return res.send(item);
 });

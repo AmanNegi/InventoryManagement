@@ -24,10 +24,14 @@ const inventoryItemSchema = new mongoose.Schema({
     required: true,
     min: 0,
   },
-
   quantity: {
     type: Number,
     default: 1,
+  },
+  type: {
+    type: String,
+    enum: ['loose', 'packaged'],
+    default: 'packaged',
   },
   listedAt: {
     type: Date,
@@ -48,8 +52,9 @@ export function validateInventoryItem(item: any) {
     description: Joi.string().required(),
     images: Joi.array().items(Joi.string()).required(),
     quantity: Joi.number().min(1).required(),
-    costPrice: Joi.number().required(),
-    sellingPrice: Joi.number().required(),
+    costPrice: Joi.number().min(0).required(),  
+    sellingPrice: Joi.number().min(0).required(),
+    type: Joi.string().valid('loose', 'packaged').default('packaged'),
   });
   return schema.validate(item);
 }

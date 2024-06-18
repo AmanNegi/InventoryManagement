@@ -18,7 +18,7 @@ const transactionItem = new mongoose.Schema({
   quantity: {
     type: Number,
     required: true,
-    min: 1,
+    min: 0,
   },
 });
 
@@ -46,6 +46,15 @@ const transactionSchema = new mongoose.Schema({
     type: [transactionItem],
     required: true,
   },
+  paymentMethod: {
+    type: String,
+    enum: ['cash', 'online', 'takeaway'],
+    default: 'cash',
+  },
+  discountAmount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 export const Transaction = mongoose.model('Transaction', transactionSchema);
@@ -63,6 +72,8 @@ export function validateTransaction(transaction: any) {
         quantity: Joi.number().required(),
       }),
     ),
+    paymentMethod: Joi.string().valid('cash', 'online', 'takeaway'),
+    discountAmount: Joi.number().default(0),
   });
   return schema.validate(transaction);
 }

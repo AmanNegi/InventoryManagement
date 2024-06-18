@@ -20,14 +20,15 @@ router.post('/add', async (req, res) => {
     const e = await InventoryItem.findById(item.itemId);
     if (!e) return res.status(400).send('An item was not found');
 
-    if (item.quantity > e.quantity) {
-      return res
-        .status(400)
-        .send(
-          `"${item.itemTitle}" Quantity exceeds current capacity. (${item.quantity} of ${e.quantity})`,
-        );
-    }
+    // if (item.quantity > e.quantity) {
+    //   return res
+    //     .status(400)
+    //     .send(
+    //       `"${item.itemTitle}" Quantity exceeds current capacity. (${item.quantity} of ${e.quantity})`,
+    //     );
+    // }
 
+    //! allow negative as per requirements
     e.quantity -= item.quantity;
     updatedItems.push(e);
   }
