@@ -17,7 +17,7 @@ class _MultiTabBillPageState extends State<MultiTabBillPage>
   @override
   void initState() {
     _tabController = TabController(
-      length: 3,
+      length: 4,
       vsync: this,
     );
     super.initState();
@@ -33,6 +33,7 @@ class _MultiTabBillPageState extends State<MultiTabBillPage>
             currentIndex = index;
             setState(() {});
           },
+          type: BottomNavigationBarType.fixed,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.one_k),
@@ -46,6 +47,10 @@ class _MultiTabBillPageState extends State<MultiTabBillPage>
               icon: Icon(Icons.three_k),
               label: "Bill 3",
             ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.four_k),
+              label: "Bill 4",
+            ),
           ]),
       body: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
@@ -54,6 +59,7 @@ class _MultiTabBillPageState extends State<MultiTabBillPage>
           BillPage(billingNotifiers[0]),
           BillPage(billingNotifiers[1]),
           BillPage(billingNotifiers[2]),
+          BillPage(billingNotifiers[3]),
         ],
       ),
     );

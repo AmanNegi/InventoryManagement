@@ -3,6 +3,7 @@ import "dart:convert";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:http/http.dart" as http;
+import "package:inv_mgmt_client/data/cache/app_cache.dart";
 import "package:inv_mgmt_client/data/inventory_state.dart";
 import "package:inv_mgmt_client/globals.dart";
 import 'package:inv_mgmt_client/models/inventory_item.dart';
@@ -11,9 +12,7 @@ class InventoryManager {
   final WidgetRef ref;
   final BuildContext context;
 
-  InventoryManager(this.ref, this.context) {
-    getAllItems();
-  }
+  InventoryManager(this.ref, this.context) {}
 
   ValueNotifier<bool> isLoading = ValueNotifier(false);
 
@@ -23,7 +22,7 @@ class InventoryManager {
     required double costPrice,
     required double sellingPrice,
   }) {
-    if (title.isEmpty || quantity <= 0 || costPrice <= 0 || sellingPrice <= 0) {
+    if (title.isEmpty || quantity <= 0 || sellingPrice <= 0) {
       showToast("Please fill all fields");
       return false;
     }
@@ -41,14 +40,19 @@ class InventoryManager {
     required String type,
   }) async {
     try {
+      double cp = costPrice;
+      if (cp <= 0) {
+        cp = sellingPrice - (0.1 * sellingPrice);
+      }
+
       var res = await http.post(
-        Uri.parse("$API_URL/list/addItem"),
+        Uri.parse("${API_URL}/list/addItem"),
         body: json.encode({
           "title": title,
           "description": description,
           "images": imageUrl == null ? [] : [imageUrl],
           "quantity": quantity,
-          "costPrice": costPrice,
+          "costPrice": cp,
           "sellingPrice": sellingPrice,
           "type": type,
         }),
@@ -68,14 +72,14 @@ class InventoryManager {
       return -1;
     } catch (e) {
       print(e);
-      showToast(e.toString());
+      showToast("inventory.dart (addItem)" + e.toString());
       return -1;
     }
   }
 
   Future<int> deleteItem(String id) async {
     try {
-      var res = await http.delete(Uri.parse("$API_URL/list/deleteItem/$id"));
+      var res = await http.delete(Uri.parse("${API_URL}/list/deleteItem/$id"));
 
       if (res.statusCode == 200) {
         showToast("Item deleted successfully");
@@ -88,7 +92,7 @@ class InventoryManager {
       return -1;
     } catch (e) {
       print(e);
-      showToast(e.toString());
+      showToast("inventory.dart (deleteItem):" + e.toString());
       return -1;
     }
   }
@@ -96,7 +100,7 @@ class InventoryManager {
   Future<int> updateItem(InventoryItem item) async {
     try {
       var res = await http.put(
-        Uri.parse("$API_URL/list/updateItem/${item.id}"),
+        Uri.parse("${API_URL}/list/updateItem/${item.id}"),
         body: json.encode({
           "title": item.title,
           "description": item.description,
@@ -120,18 +124,18 @@ class InventoryManager {
       print(res.body);
       return -1;
     } catch (e) {
-      print(e);
+      print("inventory.dart (updateItem): " + e.toString());
       showToast(e.toString());
       return -1;
     }
   }
 
-  getAllItems() async {
-    if (ref.read(inventoryProvider).items.isEmpty) {
+  Future<void> getAllItems() async {
+    if (ref.read(inventoryProvider).allItems.isEmpty) {
       isLoading.value = true;
     }
     try {
-      var res = await http.get(Uri.parse("$API_URL/list/getAll"));
+      var res = await http.get(Uri.parse("${API_URL}/list/getAll"));
       List<InventoryItem> shopItemList = [];
 
       if (res.statusCode == 200) {
@@ -142,7 +146,8 @@ class InventoryManager {
 
         print("Final list: $shopItemList");
         isLoading.value = false;
-        ref.read(inventoryProvider).items = shopItemList;
+
+        ref.read(inventoryProvider).allItems = shopItemList;
         return;
       }
 
@@ -150,8 +155,38 @@ class InventoryManager {
       print(res.body);
     } catch (e) {
       isLoading.value = false;
-      print(e);
-      showToast(e.toString());
+      print("inventory.dart (getAllItems): " + e.toString());
     }
   }
+
+  Future<InventoryItem?> getItem(String id) async {
+    try {
+      var res = await http.get(
+        Uri.parse("${API_URL}/list/getItem/$id"),
+      );
+
+      if (res.statusCode == 200) {
+        return InventoryItem.fromMap(json.decode(res.body));
+      }
+
+      showToast(res.body);
+      print(res.body);
+      return null;
+    } catch (e) {
+      print(e);
+      showToast("inventory.dart (getItem):" + e.toString());
+      return null;
+    }
+  }
+
+//   router.get('/getItem/:id', async (req, res) => {
+//   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+//     return res.status(404).send('Invalid Item ID');
+//   }
+//   const item = await InventoryItem.findOne({ _id: req.params.id });
+//   if (!item) {
+//     return res.status(404).send('No Product Found');
+//   }
+//   return res.send(item);
+// });
 }

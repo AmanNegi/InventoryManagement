@@ -8,27 +8,45 @@ final inventoryProvider =
 
 class InventoryState extends ChangeNotifier {
   List<InventoryItem> _items = [];
+  List<InventoryItem> _allItems = [];
 
   List<InventoryItem> get items => _items;
+  List<InventoryItem> get allItems => _allItems;
 
-  set items(List<InventoryItem> items) {
+  List<InventoryItem> getItemsForQuery(String query) {
+    if (query.trim().isEmpty) {
+      return _allItems;
+    }
+
+    _items = _allItems
+        .where((element) =>
+            element.title.toLowerCase().contains(query.toLowerCase()) ||
+            element.description.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    notifyListeners();
+    return _items;
+  }
+
+  set allItems(List<InventoryItem> items) {
+    _allItems = items;
     _items = items;
     notifyListeners();
   }
 
   addItem(InventoryItem item) {
-    _items.add(item);
+    _allItems.add(item);
     notifyListeners();
   }
 
   removeItem(InventoryItem item) {
-    _items.remove(item);
+    _allItems.remove(item);
     notifyListeners();
   }
 
   updateItem(InventoryItem item) {
-    int index = _items.indexWhere((element) => element.id == item.id);
-    _items[index] = item;
+    int index = _allItems.indexWhere((element) => element.id == item.id);
+    _allItems[index] = item;
     notifyListeners();
   }
 }

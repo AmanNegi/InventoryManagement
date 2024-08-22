@@ -28,13 +28,6 @@ class _LoginPageState extends ConsumerState<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        elevation: 0,
-        onPressed: () {
-          goToPage(context, const SettingsPage());
-        },
-        child: const Icon(Icons.settings),
-      ),
       body: LoadingWidget(
         isLoading: _authManager.isLoading,
         child: _buildLoginPage(context),
@@ -48,11 +41,6 @@ class _LoginPageState extends ConsumerState<AuthPage> {
       child: Column(
         children: [
           const SizedBox(height: kToolbarHeight),
-          // Image.asset(
-          //   "assets/logo_app.png",
-          //   height: 100,
-          //   width: 100,
-          // ),
           SizedBox(height: 0.025 * getHeight(context)),
           const Center(
             child: Text(

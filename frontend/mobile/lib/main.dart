@@ -26,17 +26,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "InvMgmt",
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: accentColor,
-        ),
-        useMaterial3: true,
-        fontFamily: GoogleFonts.poppins().fontFamily,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: appCache.isLoggedIn() ? const HomePage() : const AuthPage(),
-    );
+    return ValueListenableBuilder(
+        valueListenable: appState,
+        builder: (context, value, child) {
+          return MaterialApp(
+            title: "InvMgmt",
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(
+                brightness: appState.value.isDarkMode
+                    ? Brightness.dark
+                    : Brightness.light,
+                seedColor: accentColor,
+              ),
+              useMaterial3: true,
+              fontFamily: GoogleFonts.poppins().fontFamily,
+            ),
+            debugShowCheckedModeBanner: false,
+            home: appCache.isLoggedIn() ? const HomePage() : const AuthPage(),
+          );
+        });
   }
 }

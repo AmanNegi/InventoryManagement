@@ -71,17 +71,16 @@ class BillItemWidget extends ConsumerWidget {
                               ),
                             ),
                           )
-                        : Container(
-                            height: 0.2 * getWidth(context),
-                            width: 0.2 * getWidth(context),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: const Icon(
-                              Icons.image_not_supported,
-                              size: 30,
-                              color: Colors.grey,
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Container(
+                              height: 0.2 * getWidth(context),
+                              width: 0.2 * getWidth(context),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Image.asset("assets/logo.png"),
                             ),
                           ),
                     SizedBox(width: 0.025 * getHeight(context)),

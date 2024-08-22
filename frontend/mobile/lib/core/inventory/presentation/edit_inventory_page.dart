@@ -263,7 +263,7 @@ class AddInventoryItemPageState extends ConsumerState<EditInventoryItemPage> {
         maxLines: null,
         keyboardType: keyboardType,
         decoration: InputDecoration(
-          hintText: hintText,
+          label: Text(hintText),
           border: InputBorder.none,
           suffix: Text(suffix),
         ),

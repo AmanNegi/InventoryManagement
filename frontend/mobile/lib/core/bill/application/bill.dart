@@ -26,7 +26,7 @@ class BillManager {
     isLoading.value = true;
     try {
       var response = await http.post(
-        Uri.parse("$API_URL/transactions/add"),
+        Uri.parse("${API_URL}/transactions/add"),
         headers: {
           "Content-Type": "application/json",
         },
@@ -60,7 +60,7 @@ class BillManager {
     } catch (error) {
       isLoading.value = false;
       showToast(error.toString());
-      print(error.toString());
+      print("bill.dart (createBill): " + error.toString());
       return -1;
     }
   }

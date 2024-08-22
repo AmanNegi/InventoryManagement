@@ -72,9 +72,11 @@ class _InventoryDetailPageState extends ConsumerState<InventoryDetailPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             widget.item.images.isEmpty
-                ? Container(
+                ? Image.asset(
+                    "assets/logo.png",
+                    fit: BoxFit.cover,
+                    width: double.infinity,
                     height: 0.3 * getHeight(context),
-                    color: cardColor,
                   )
                 : GestureDetector(
                     onTap: () {
@@ -129,7 +131,7 @@ class _InventoryDetailPageState extends ConsumerState<InventoryDetailPage> {
                   ),
                   getHeading("Quantity"),
                   Text(
-                      "${widget.item.quantity} ${widget.item.type == "loose" ? "kgs" : "units"}"),
+                      "${widget.item.quantity.toStringAsFixed(2)} ${widget.item.type == "loose" ? "kgs" : "units"}"),
                   if (widget.item.type == "loose")
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

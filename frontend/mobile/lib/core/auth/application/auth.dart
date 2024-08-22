@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inv_mgmt_client/data/auth_state.dart';
+import 'package:inv_mgmt_client/data/cache/app_cache.dart';
 import 'package:inv_mgmt_client/globals.dart';
 import 'package:http/http.dart' as http;
 import 'package:inv_mgmt_client/models/user.dart';
@@ -22,7 +23,7 @@ class AuthManager {
     isLoading.value = true;
     try {
       var response = await http.post(
-        Uri.parse("$API_URL/auth/login"),
+        Uri.parse("${API_URL}/auth/login"),
         headers: {
           "Content-Type": "application/json",
         },
@@ -44,7 +45,6 @@ class AuthManager {
       }
     } catch (error) {
       isLoading.value = false;
-      showToast(error.toString());
       debugPrint(error.toString());
       return -1;
     }

@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 ValueNotifier<AppState> appState = ValueNotifier(AppState.initial());
 
 class AppCache {
-  final String _prefsKey = "fresh_nest";
+  final String _prefsKey = "inv_mgmt_client";
 
   getDataFromDevice() async {
     var sharedPreferences = await SharedPreferences.getInstance();
@@ -18,7 +18,7 @@ class AppCache {
   saveDataToDevice() async {
     var sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setString(_prefsKey, appState.value.toJson());
-    debugPrint("Saved Data to Device...");
+    debugPrint("Saved Data to Device..." + appState.value.toJson());
   }
 
   updateAppCache(AppState state) {
@@ -27,7 +27,10 @@ class AppCache {
   }
 
   clearAppCache() {
-    appState.value = (AppState.initial());
+    appState.value = new AppState(
+      user: null,
+      isLoggedIn: false,
+    );
     saveDataToDevice();
   }
 

@@ -39,7 +39,7 @@ class _SearchItemPageState extends State<SearchItemPage> {
               builder: (context, ref, child) {
                 var items = ref
                     .watch(inventoryProvider)
-                    .items
+                    .allItems
                     .where((element) => element.title
                         .toLowerCase()
                         .contains(query.toLowerCase()))
@@ -55,8 +55,9 @@ class _SearchItemPageState extends State<SearchItemPage> {
                   shrinkWrap: true,
                   itemCount: items.length,
                   itemBuilder: (context, index) {
-                    return GridItem(
+                    return InventoryItemWidget(
                       item: items[index],
+                      manager: null,
                       onClick: () {
                         Navigator.pop(context, items[index]);
                       },

@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inv_mgmt_client/data/cache/app_cache.dart';
 import 'package:inv_mgmt_client/models/user.dart';
@@ -9,6 +10,7 @@ import 'package:inv_mgmt_client/models/user.dart';
 final authProvider =
     ChangeNotifierProvider<AuthProvider>((ref) => AuthProvider());
 
+// TODO: Redundant code. Remove this.
 class AuthProvider extends ChangeNotifier {
   AppState _authState = AppState.initial();
 
@@ -22,8 +24,10 @@ class AuthProvider extends ChangeNotifier {
   }
 
   updateUserData(User user) {
-    _authState = AppState(isLoggedIn: true, user: user);
-    appCache.updateAppCache(_authState);
+    appCache.updateAppCache(new AppState(
+      isLoggedIn: true,
+      user: user,
+    ));
     notifyListeners();
   }
 
@@ -38,10 +42,12 @@ class AuthProvider extends ChangeNotifier {
 **/
 class AppState {
   final bool isLoggedIn;
+  final bool isDarkMode;
   final User? user;
 
   const AppState({
     this.isLoggedIn = false,
+    this.isDarkMode = true,
     required this.user,
   });
 
@@ -49,48 +55,57 @@ class AppState {
     return const AppState(
       user: null,
       isLoggedIn: false,
+      isDarkMode: true,
     );
   }
 
   AppState copyWith({
     bool? isLoggedIn,
-    User? user,
+    bool? isDarkMode,
+    ValueGetter<User?>? user,
   }) {
     return AppState(
-        isLoggedIn: isLoggedIn ?? this.isLoggedIn, user: user ?? this.user);
+      isLoggedIn: isLoggedIn ?? this.isLoggedIn,
+      isDarkMode: isDarkMode ?? this.isDarkMode,
+      user: user != null ? user() : this.user,
+    );
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+    return {
       'isLoggedIn': isLoggedIn,
+      'isDarkMode': isDarkMode,
       'user': user?.toMap(),
     };
   }
 
   factory AppState.fromMap(Map<String, dynamic> map) {
     return AppState(
-      isLoggedIn: map['isLoggedIn'] as bool,
-      user: map['user'] != null
-          ? User.fromMap(map['user'] as Map<String, dynamic>)
-          : null,
+      isLoggedIn: map['isLoggedIn'] ?? false,
+      isDarkMode: map['isDarkMode'] ?? true,
+      user: map['user'] != null ? User.fromMap(map['user']) : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory AppState.fromJson(String source) =>
-      AppState.fromMap(json.decode(source) as Map<String, dynamic>);
+      AppState.fromMap(json.decode(source));
 
   @override
-  String toString() => 'AppState(isLoggedIn: $isLoggedIn, user: $user)';
+  String toString() =>
+      'AppState(isLoggedIn: $isLoggedIn, isDarkMode: $isDarkMode, user: $user)';
 
   @override
-  bool operator ==(covariant AppState other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other.isLoggedIn == isLoggedIn && other.user == user;
+    return other is AppState &&
+        other.isLoggedIn == isLoggedIn &&
+        other.isDarkMode == isDarkMode &&
+        other.user == user;
   }
 
   @override
-  int get hashCode => isLoggedIn.hashCode ^ user.hashCode;
+  int get hashCode => isLoggedIn.hashCode ^ isDarkMode.hashCode ^ user.hashCode;
 }

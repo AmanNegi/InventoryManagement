@@ -1,12 +1,16 @@
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:inv_mgmt_client/colors.dart";
 import "package:inv_mgmt_client/core/bill/presentation/multi-tab-bill-page.dart";
+import "package:inv_mgmt_client/core/inventory/application/inventory.dart";
 import 'package:inv_mgmt_client/core/inventory/presentation/inventory_page.dart';
 import "package:inv_mgmt_client/core/settings/presentation/settings_page.dart";
+import "package:inv_mgmt_client/core/transactions/application/transactions.dart";
 import "package:inv_mgmt_client/core/transactions/presentation/transactions_page.dart";
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final int index;
+  const HomePage({super.key, this.index = 0});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -22,6 +26,7 @@ class _HomePageState extends State<HomePage>
     tabController = TabController(
       length: 4,
       vsync: this,
+      initialIndex: widget.index,
     );
     super.initState();
   }
@@ -29,16 +34,18 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TabBarView(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: tabController,
-        children: const [
-          InventoryPage(),
-          MultiTabBillPage(),
-          TransactionsPage(),
-          SettingsPage(),
-        ],
-      ),
+      body: Consumer(builder: (context, ref, child) {
+        return TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: tabController,
+          children: [
+            InventoryPage(manager: InventoryManager(ref, context)),
+            MultiTabBillPage(),
+            TransactionsPage(manager: TransactionsManager(ref, context)),
+            SettingsPage(),
+          ],
+        );
+      }),
       bottomNavigationBar: BottomNavigationBar(
         fixedColor: lightColor,
         unselectedItemColor: cardColor,

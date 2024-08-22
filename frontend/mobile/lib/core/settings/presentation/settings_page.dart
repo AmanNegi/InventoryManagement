@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:inv_mgmt_client/core/auth/presentation/auth_page.dart";
+import "package:inv_mgmt_client/data/auth_state.dart";
 import "package:inv_mgmt_client/data/cache/app_cache.dart";
 import "package:inv_mgmt_client/globals.dart";
 import "package:inv_mgmt_client/widgets/action_button.dart";
@@ -13,7 +14,9 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  TextEditingController apiController = TextEditingController(text: API_URL);
+  TextEditingController apiController = TextEditingController(
+    text: API_URL,
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,22 +26,19 @@ class _SettingsPageState extends State<SettingsPage> {
         body: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
           children: [
-            TextField(
-              controller: apiController,
-              decoration: InputDecoration(
-                isDense: true,
-                border: const OutlineInputBorder(),
-                hintText: "localhost:3000",
-                label: const Text("API URL"),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    apiController.clear();
-                    // clear the field
-                  },
-                  icon: const Icon(Icons.clear),
-                ),
-              ),
-            ),
+            SwitchListTile(
+                title: Text("Dark Mode"),
+                value: appState.value.isDarkMode,
+                onChanged: (v) {
+                  appCache.updateAppCache(
+                    new AppState(
+                        user: appState.value.user,
+                        isLoggedIn: appState.value.isLoggedIn,
+                        isDarkMode: v),
+                  );
+                  setState(() {});
+                }),
+            Divider(),
             if (appState.value.isLoggedIn)
               ListTile(
                 leading: const Icon(Icons.logout),
@@ -52,7 +52,12 @@ class _SettingsPageState extends State<SettingsPage> {
             ActionButton(
                 text: "Save Changes",
                 onPressed: () {
-                  API_URL = apiController.text;
+                  appCache.updateAppCache(
+                    new AppState(
+                      user: appState.value.user,
+                      isLoggedIn: appState.value.isLoggedIn,
+                    ),
+                  );
                   setState(() {});
                   showToast("Settings updated successfully!");
                 })

@@ -13,17 +13,24 @@ final billingNotifiers = [
   ChangeNotifierProvider<BillingState>((ref) => BillingState()),
   ChangeNotifierProvider<BillingState>((ref) => BillingState()),
   ChangeNotifierProvider<BillingState>((ref) => BillingState()),
+  ChangeNotifierProvider<BillingState>((ref) => BillingState()),
 ];
 
 class BillingState extends ChangeNotifier {
   List<BillingItem> _items = [];
   String _customerName = "";
   String _paymentMode = "cash";
+  double _discount = 0.0;
 
   List<BillingItem> get items => _items;
   String get customerName => _customerName;
   String get paymentMode => _paymentMode;
-  double discount = 0;
+  double get discount => _discount;
+
+  set discount(double discount) {
+    _discount = discount;
+    notifyListeners();
+  }
 
   set items(List<BillingItem> items) {
     _items = items;

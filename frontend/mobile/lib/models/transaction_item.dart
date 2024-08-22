@@ -5,34 +5,42 @@ import 'package:collection/collection.dart';
 class TransactionItem {
   final String id;
   final double totalAmount;
+  final double discountAmount;
   final String buyerName;
   final String biller;
+  final String paymentMethod;
   final DateTime datedAt;
   final List<TransactionItemDetails> items;
   TransactionItem({
     required this.id,
     required this.totalAmount,
+    required this.discountAmount,
     required this.buyerName,
     required this.biller,
     required this.datedAt,
+    required this.paymentMethod,
     required this.items,
   });
 
   TransactionItem copyWith({
     String? id,
     double? totalAmount,
+    double? discountAmount,
     String? buyerName,
     String? biller,
+    String? paymentMethod,
     DateTime? datedAt,
     List<TransactionItemDetails>? items,
   }) {
     return TransactionItem(
       id: id ?? this.id,
       totalAmount: totalAmount ?? this.totalAmount,
+      discountAmount: discountAmount ?? this.discountAmount,
       buyerName: buyerName ?? this.buyerName,
       biller: biller ?? this.biller,
       datedAt: datedAt ?? this.datedAt,
       items: items ?? this.items,
+      paymentMethod: paymentMethod ?? this.paymentMethod,
     );
   }
 
@@ -40,10 +48,12 @@ class TransactionItem {
     return {
       '_id': id,
       'totalAmount': totalAmount,
+      'discountAmount': discountAmount,
       'buyerName': buyerName,
       'biller': biller,
       'datedAt': datedAt.toIso8601String(),
       'items': items.map((x) => x.toMap()).toList(),
+      'paymentMethod': paymentMethod,
     };
   }
 
@@ -51,7 +61,9 @@ class TransactionItem {
     return TransactionItem(
       id: map['_id'] ?? '',
       totalAmount: map['totalAmount']?.toDouble() ?? 0.0,
+      discountAmount: map['discountAmount']?.toDouble() ?? 0.0,
       buyerName: map['buyerName'] ?? '',
+      paymentMethod: map['paymentMethod'] ?? '',
       biller: map['biller'] ?? '',
       datedAt: DateTime.parse(map['datedAt']),
       items: List<TransactionItemDetails>.from(
@@ -66,7 +78,7 @@ class TransactionItem {
 
   @override
   String toString() {
-    return 'TransactionItem(id: $id, totalAmount: $totalAmount, buyerName: $buyerName, biller: $biller, datedAt: $datedAt, items: $items)';
+    return 'TransactionItem(id: $id, totalAmount: $totalAmount, discountAmount: $discountAmount, buyerName: $buyerName, biller: $biller, datedAt: $datedAt, items: $items, paymentMethod: $paymentMethod)';
   }
 
   @override
@@ -77,9 +89,11 @@ class TransactionItem {
     return other is TransactionItem &&
         other.id == id &&
         other.totalAmount == totalAmount &&
+        other.discountAmount == discountAmount &&
         other.buyerName == buyerName &&
         other.biller == biller &&
         other.datedAt == datedAt &&
+        other.paymentMethod == paymentMethod &&
         listEquals(other.items, items);
   }
 
@@ -87,8 +101,10 @@ class TransactionItem {
   int get hashCode {
     return id.hashCode ^
         totalAmount.hashCode ^
+        discountAmount.hashCode ^
         buyerName.hashCode ^
         biller.hashCode ^
+        paymentMethod.hashCode ^
         datedAt.hashCode ^
         items.hashCode;
   }
