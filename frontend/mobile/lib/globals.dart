@@ -4,7 +4,7 @@ import "package:http/http.dart" as http;
 import 'package:inv_mgmt_client/data/billing_state.dart';
 import 'package:inv_mgmt_client/data/cache/app_cache.dart';
 
-String API_URL = "http://54.253.161.19:3000";
+String API_URL = "http://localhost:3000";
 
 String rupee = "₹";
 
