@@ -34,6 +34,7 @@ const Profile = () => {
   return (
     <>
       <section className="mx-5 my-10 md:mx-20">
+        <div className="h-[6vh]"></div>
         <h1 className="mb-8 text-3xl font-bold">Last 30 Days</h1>
         <div className="flex flex-col gap-20 md:flex-row justify-evenly">
           <div className="flex flex-col w-full">

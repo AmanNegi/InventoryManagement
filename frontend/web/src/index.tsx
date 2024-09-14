@@ -18,7 +18,6 @@ root.render(
     <main className="box-border h-[100%] w-[100%] overflow-hidden scroll-smooth ">
       <RouterProvider router={router} />
       <Toaster />
-      <StatusSticker />
     </main>
   </>
 )

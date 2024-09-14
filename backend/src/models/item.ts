@@ -52,7 +52,7 @@ export function validateInventoryItem(item: any) {
     description: Joi.string().required(),
     images: Joi.array().items(Joi.string()).required(),
     quantity: Joi.number().min(1).required(),
-    costPrice: Joi.number().min(0).required(),  
+    costPrice: Joi.number().min(0).required(),
     sellingPrice: Joi.number().min(0).required(),
     type: Joi.string().valid('loose', 'packaged').default('packaged'),
   });

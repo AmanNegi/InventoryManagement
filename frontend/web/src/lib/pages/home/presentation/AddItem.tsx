@@ -60,6 +60,7 @@ const AddItem = () => {
   }
   return (
     <main className="flex flex-col mx-6 md:mx-20 my-10">
+      <div className="h-[6vh]"></div>
       <div className="flex flex-col md:flex-row gap-2 md:gap-0">
         <h1 className="text-3xl font-bold">Add Item</h1>
         <div className="flex-1"></div>

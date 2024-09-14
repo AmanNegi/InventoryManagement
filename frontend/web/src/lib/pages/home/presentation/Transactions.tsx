@@ -17,6 +17,7 @@ const Transactions = () => {
 
   return (
     <section className="px-8 md:px-10 lg:px-20 py-10">
+      <div className="h-[6vh]"></div>
       <h1 className="mb-4 text-3xl">Transactions</h1>
       {transactionsRes && <TableComponent details={transactionsRes} />}
     </section>

@@ -12,7 +12,7 @@ import appState from '../utils/LocalStorage'
 const NavBar = () => {
   return (
     <>
-      <section className="flex h-[60px] w-[100vw] flex-row bg-gray-100">
+      <section className="fixed top-0 flex h-[60px] w-[100vw] flex-row bg-gray-100 z-[999]">
         <NavBarLink link="/home" title="Inventory">
           <Store />
         </NavBarLink>
@@ -23,14 +23,12 @@ const NavBar = () => {
         <NavBarLink link="/bill" title="Bill">
           <ReceiptText />
         </NavBarLink>
-
         <NavBarLink link="/transactions" title="Transactions">
           <BadgeIndianRupee />
         </NavBarLink>
         <NavBarLink link="/profile" title="Profile">
           <UserIcon />
         </NavBarLink>
-
         <div className="flex-1"></div>
         <div
           onClick={() => {

@@ -6,7 +6,6 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerOutput from './swagger_output.json';
 import env from 'dotenv';
 import cors from 'cors';
-import { get } from 'lodash';
 
 const app = express();
 app.use(express.json());

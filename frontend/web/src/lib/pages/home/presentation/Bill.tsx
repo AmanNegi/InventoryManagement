@@ -147,6 +147,7 @@ const Bill = () => {
         <div className="drawer-content">
           {/* Page content here */}
           <section className="px-6 md:px-20 py-10">
+            <div className="h-[6vh]"></div>
             <h1 className="mb-4 text-3xl">Create Bill</h1>
 
             <div className="flex flex-col md:flex-row gap-2 ">
@@ -284,6 +285,7 @@ const SearchComponent = ({
   return (
     <>
       <section>
+        <div className="h-[6vh]"></div>
         <p>Enter the product name:</p>
         <label className="flex items-center gap-2 input-bordered input mt-2">
           <input
@@ -311,13 +313,24 @@ const SearchComponent = ({
                 key={e._id}
                 className="flex flex-row gap-2 hover:bg-gray-50"
               >
-                <img className="h-[50px]" src={e.images[0]}></img>
+                {e.images.length == 0 && (
+                  <div className="h-[30px] w-[30px] rounded-full bg-gray-300 center">
+                    <h1>{e.title[0]}</h1>
+                  </div>
+                )}
+                {e.images.length > 0 && (
+                  <img
+                    className="h-[30px] w-[30px] object-cover rounded-full"
+                    src={e.images[0]}
+                  ></img>
+                )}
+
                 <div className="flex flex-col">
                   <p>{e.title}</p>
                   <p>Qty:{e.quantity}</p>
                 </div>
                 <div className="flex flex-1 "></div>
-                <p className="flex text-center items-center justify-center bg-blue-500 text-white max-h-[4vh] px-4 rounded-full font-bold">
+                <p className="flex text-center items-center justify-center bg-blue-500 text-white px-2 max-h-[6vh] rounded font-bold">
                   ₹ {e.sellingPrice}
                 </p>
               </div>

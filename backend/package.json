@@ -1,7 +1,7 @@
 {
-  "name": "typescript-starter",
+  "name": "inv-mgmt-backend",
   "version": "1.0.0",
-  "description": "A basic typescript app starter for 2024.",
+  "description": "Backend for Inventory Mangement.",
   "main": "index.js",
   "scripts": {
     "build": "rimraf ./build && tsc",
