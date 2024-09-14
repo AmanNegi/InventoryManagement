@@ -1,6 +1,19 @@
-# RetailFlow
-> Keep Your Store in Flow, Always
+<p align="center">
+    <h1 align="center">
+        <a href="https://github.com/amannegi/retailflow">
+      RetailFlow
+        </a>
+    </h1>
+    <h2 align="center">🗃️ Helps to Keep Your Store in Flow, Always 🗃️</h2>
+</p>
 
+ ![banner_one](https://github.com/user-attachments/assets/82763106-d530-44d0-9ac7-64c3face80a4)
+ ![banner2](https://github.com/user-attachments/assets/ddee98e8-1064-492f-9fd1-b118069f8652)
+![banner3](https://github.com/user-attachments/assets/5826be93-6718-4d85-98d1-2365ed0ba2af)
+![banner4](https://github.com/user-attachments/assets/473117a6-a1b0-419d-a4b0-eb98b10f141f)
+
+
+ 
 ## Our Purpose
 ### 1. Our User
 
@@ -51,9 +64,9 @@ While there are several inventory management software solutions available, many 
 
 ## Tech Stack
 
-| Category  | Technology                                      |
-|-----------|-------------------------------------------------|
-| Backend   | NodeJS                                          |
-| Frontend  | ReactJS + TailWindCSS + [ShadCN](https://ui.shadcn.com/) |
-| Mobile    | Flutter           |
-| Database  | MongoDB     |
+| Technology | Tech Stack                                                                                                         | Language  | Version      |
+| ---------- | -------------------------------------------------------------------------------------------------------------------- | ----- | ------------ |
+| Mobile     | ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)  | Dart | 3.16.9       |
+| Web        | ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)    | TypeScript   | 18.2.0       |
+| Backend    | ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)          | TypeScript   | 20.11.1      |
+| Database   | ![MongoDBAtlas](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) | ~ | mongodbatlas |
